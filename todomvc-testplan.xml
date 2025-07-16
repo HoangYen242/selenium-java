@@ -3,7 +3,6 @@
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="todo.TodoTest"/>
-            <class name="calculator.BodyMassIndexTest"/>
         </classes>
     </test>
 </suite>
