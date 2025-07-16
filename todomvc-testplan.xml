@@ -1,0 +1,14 @@
+<suite name="TodoMVC">
+    <test name="chrome">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="todo.TodoTest"/>
+        </classes>
+    </test>
+    <test name="edge">
+        <parameter name="browser" value="edge"/>
+        <classes>
+            <class name="todo.TodoTest"/>
+        </classes>
+    </test>
+</suite>
