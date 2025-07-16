@@ -39,7 +39,7 @@ public class BodyMassIndexPage {
     }
 
     public String getResult() {
-        return getText(resultLabel)
+        return getTextWait(resultLabel)
                 .replace("BMI = ", "")
                 .replace("kg/m2", "")
                 .trim();
