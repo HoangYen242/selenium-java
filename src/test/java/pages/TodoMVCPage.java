@@ -16,7 +16,7 @@ public class TodoMVCPage {
     }
 
     public String getLatestTaskName() {
-        return getText(By.cssSelector(".todo-list > li:last-child"));
+        return getTextWait(By.cssSelector(".todo-list > li:last-child"));
     }
 
     public void markComplete(String taskName) {
