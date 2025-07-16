@@ -19,11 +19,11 @@ public class BodyMassIndexPage {
     }
 
     public void selectMetricTab() {
-        click(metricUnitTab);
+        clickWait(metricUnitTab);
     }
 
     public void clearForm() {
-        click(clearButton);
+        clickWait(clearButton);
     }
 
     public void fillCalculatorForm(String age, String gender, String height, String weight) {
@@ -35,11 +35,11 @@ public class BodyMassIndexPage {
         }
         sendKeys(heightTextBox, height);
         sendKeys(weightTextBox, weight);
-        click(calculateButton);
+        clickWait(calculateButton);
     }
 
     public String getResult() {
-        return getText(resultLabel)
+        return getTextWait(resultLabel)
                 .replace("BMI = ", "")
                 .replace("kg/m2", "")
                 .trim();

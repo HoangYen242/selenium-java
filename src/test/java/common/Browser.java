@@ -67,12 +67,18 @@ public class Browser {
 
     public static void click(By element){
         driver.findElement(element).click();
-//        wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+    }
+
+    public static void clickWait(By element){
+        wait.until(ExpectedConditions.elementToBeClickable(element)).click();
     }
 
     public static String getText(By element){
         return driver.findElement(element).getText();
-//        return wait.until(ExpectedConditions.visibilityOfElementLocated(element)).getText();
+    }
+
+    public static String getTextWait(By element){
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(element)).getText();
     }
 
     public static void sendKeys(By element, CharSequence withText){
