@@ -5,10 +5,4 @@
             <class name="calculator.BodyMassIndexTest"/>
         </classes>
     </test>
-    <test name="Unit Metric on Edge">
-        <parameter name="browser" value="edge"/>
-        <classes>
-            <class name="calculator.BodyMassIndexTest"/>
-        </classes>
-    </test>
 </suite>
