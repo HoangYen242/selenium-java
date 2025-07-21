@@ -108,4 +108,8 @@ public class Browser {
         return driver.findElements(element).size()>0;
     }
 
+    public static String getCurrentUrl(){
+        return driver.getCurrentUrl();
+    }
+
 }

@@ -19,7 +19,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Run test
-        run: mvn test -Dtest.suite=src/test/resources/testplan/todomvc-testplan.xml
+        run: mvn test -Dtest.suite=src/test/resources/testplan/login-testplan.xml
       - name: Publish Test Report
         if: success() || failure()
         uses: scacap/action-surefire-report@v1

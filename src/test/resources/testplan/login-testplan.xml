@@ -1,0 +1,11 @@
+<suite name="Login">
+    <test name="Login with Chrome">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="theInternet.LoginTest"/>
+<!--            <methods>-->
+<!--                <include name="testValidLoginRedirect"/>-->
+<!--            </methods>-->
+        </classes>
+    </test>
+</suite>
