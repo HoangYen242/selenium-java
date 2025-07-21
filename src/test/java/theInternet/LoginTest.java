@@ -17,6 +17,11 @@ public class LoginTest extends BaseTest {
         loginPage.open();
     }
 
+    @BeforeMethod
+    void setUp(){
+        loginPage.open();
+    }
+
     @DataProvider(name= "validLoginData")
     Object[][] validLoginData() {
         return new Object[][]{
