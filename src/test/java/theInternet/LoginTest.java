@@ -19,6 +19,7 @@ public class LoginTest extends BaseTest {
 
     @BeforeMethod
     void setUp(){
+        Browser.clearCookies();
         loginPage.open();
     }
 
@@ -33,6 +34,7 @@ public class LoginTest extends BaseTest {
     Object[][] invalidLoginData(){
         return new Object[][]{
                 {"Tomsmith", "SuperSecretPassword!", "Your username is invalid!" },
+                {"tomsmith", "SuperSecretPassword", "Your password is invalid!" },
         };
     }
 

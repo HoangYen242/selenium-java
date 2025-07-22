@@ -3,9 +3,9 @@
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="theInternet.LoginTest"/>
-<!--            <methods>-->
-<!--                <include name="testValidLoginRedirect"/>-->
-<!--            </methods>-->
+            <methods>
+                <include name="testInvalidCredentials"/>
+            </methods>
         </classes>
     </test>
 </suite>

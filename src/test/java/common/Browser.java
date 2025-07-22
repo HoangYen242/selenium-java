@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Browser {
     //Selenium Owner methods -> static method
@@ -20,11 +22,10 @@ public class Browser {
     private static WebDriverWait wait;
     private static int TIME_OUT_IN_SECONDS = 30;
 
-
     public static void launch(String browserName) {
         if (browserName.equalsIgnoreCase("chrome")) {
             ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--headless=new");
+//            chromeOptions.addArguments("--headless=new");
             driver = new ChromeDriver(chromeOptions);
         } else if (browserName.equalsIgnoreCase("edge")) {
             driver = new EdgeDriver();
@@ -112,4 +113,29 @@ public class Browser {
         return driver.getCurrentUrl();
     }
 
+    public static void clearAndType(By element, String text){
+        driver.findElement(element).clear();
+        driver.findElement(element).sendKeys(text);
+    }
+
+    public static void clearCookies(){
+        if(driver !=null){
+            driver.manage().deleteAllCookies();
+        }
+    }
+
+    public static void waitForUrl(String expectedUrl){
+        wait.until(ExpectedConditions.urlToBe(expectedUrl));
+    }
+
+    public static void acceptAlertIfPresent(){
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            Alert alert = shortWait.until(ExpectedConditions.alertIsPresent());
+            alert.accept();
+            System.out.println("Alert was present and accepted.");
+        } catch (TimeoutException e) {
+            System.out.println("No alert present.");
+        }
+    }
 }

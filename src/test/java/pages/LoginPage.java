@@ -31,6 +31,4 @@ public class LoginPage {
     public String getCurrentUrl(){
         return Browser.getCurrentUrl();
     }
-
-
 }
