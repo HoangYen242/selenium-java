@@ -60,7 +60,7 @@ public class Browser {
         }
     }
 
-    static void uncheck(By element) {
+    public static void uncheck(By element) {
         if (driver.findElement(element).isSelected()) {
             driver.findElement(element).click();
         }
@@ -137,5 +137,9 @@ public class Browser {
         } catch (TimeoutException e) {
             System.out.println("No alert present.");
         }
+    }
+
+    public static boolean isSelected(By element){
+        return driver.findElement(element).isSelected();
     }
 }

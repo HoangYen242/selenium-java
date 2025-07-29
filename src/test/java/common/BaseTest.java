@@ -13,7 +13,7 @@ public class BaseTest {
     }
 
     @AfterClass
-    protected void closeBrowser() {
+    protected void tearDown() {
         Browser.quit();
     }
 }

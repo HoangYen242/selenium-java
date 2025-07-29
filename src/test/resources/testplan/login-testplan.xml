@@ -1,5 +1,5 @@
-<suite name="Login">
-    <test name="Login with Chrome">
+<suite name="The Internet Herokuapp">
+    <test name="Login on Chrome">
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="theInternet.LoginTest"/>

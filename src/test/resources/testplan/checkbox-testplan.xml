@@ -1,0 +1,8 @@
+<suite name="The Internet Herokuapp">
+       <test name="Checkboxes on Chrome">
+           <parameter name="browser" value="chrome"/>
+           <classes>
+               <class name="theInternet.CheckboxTest"/>
+           </classes>
+       </test>
+</suite>

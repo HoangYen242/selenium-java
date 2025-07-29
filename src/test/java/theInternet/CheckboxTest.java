@@ -1,60 +1,41 @@
 package theInternet;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import common.BaseTest;
+import common.Browser;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+import pages.CheckboxPage;
 
-public class CheckboxTest {
-    WebDriver driver;
-    WebElement checkbox1;
-    WebElement checkbox2;
+public class CheckboxTest extends BaseTest {
+    CheckboxPage checkboxPage;
+
+    @Parameters({"browser"})
+    @BeforeClass
+    void openBrowser(String browser){
+        Browser.launch(browser);
+        checkboxPage = new CheckboxPage();
+        checkboxPage.open();
+    }
 
     @BeforeMethod
     void setUp() {
-        driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/checkboxes");
-
-        checkbox1 = driver.findElement(By.cssSelector("#checkboxes input:first-child"));
-        checkbox2 = driver.findElement(By.cssSelector("#checkboxes input:last-child"));
+        checkboxPage.open();
     }
 
     @Test
     void validateCheckSuccessfully() {
-        check(checkbox1);
-        Assert.assertTrue(checkbox1.isSelected());
+       checkboxPage.checkAllCheckboxes();
 
-        check(checkbox2);
-        Assert.assertTrue(checkbox2.isSelected());
+       Assert.assertTrue(checkboxPage.isCheckbox1State());
+       Assert.assertTrue(checkboxPage.isCheckbox2State());
     }
 
     @Test
     void validateUncheckSuccessfully() {
-        uncheck(checkbox1);
-        Assert.assertFalse(checkbox1.isSelected());
+       checkboxPage.uncheckAllCheckboxes();
 
-        uncheck(checkbox2);
-        Assert.assertFalse(checkbox2.isSelected());
+       Assert.assertFalse(checkboxPage.isCheckbox1State());
+       Assert.assertFalse(checkboxPage.isCheckbox2State());
     }
 
-    @AfterMethod
-    void tearDown(){
-        driver.quit();
-    }
-
-    static void check(WebElement element) {
-        if (!element.isSelected()) {
-            element.click();
-        }
-    }
-
-    static void uncheck(WebElement element) {
-        if (element.isSelected()) {
-            element.click();
-        }
-    }
 }
