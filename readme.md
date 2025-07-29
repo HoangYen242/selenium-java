@@ -77,7 +77,11 @@ public class MyNewFeatureTest {
 5️⃣ Run test:
 - Use Maven/cmd:
 
-``your-path>mvn clean test -Dtest.suite=todomvc-testplan.xml``
+``your-path>mvn test -Dtest.suite=src/test/resources/testplan/FileName``
+
+- Use ``.github/workflows/mvn.yml``:
+
+``run: mvn test -Dtest.suite=src/test/resources/testplan/FileName``
 ## 🗂️ Project structure
 ```selenium-java/
 selenium-java/
