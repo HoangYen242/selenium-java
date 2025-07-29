@@ -21,11 +21,19 @@ git clone https://github.com/HoangYen242/selenium-java.git
 🖥️ Run test on local:
 - With test plan ``todomvc-testplan.xml``:
 ```bash
-mvn test -Dtest.suite=todomvc-testplan.xml
+mvn test -Dtest.suite=src/test/resources/testplan/todomvc-testplan.xml
 ```
 - With test plan ``bmi-testplan.xml``
 ```bash
-mvn test -Dtest.suite=bmi-testplan.xml
+mvn test -Dtest.suite=src/test/resources/testplan/bmi-testplan.xml
+```
+- With test plan ``login-testplan.xml``
+```bash
+mvn test -Dtest.suite=src/test/resources/testplan/login-testplan.xml
+```
+- With test plan ``checkbox-testplan.xml``
+```bash
+mvn test -Dtest.suite=src/test/resources/testplan/checkbox-testplan.xml
 ```
 - Check the html report at [surefire-report](target/surefire-reports/index.html)
 
@@ -74,18 +82,22 @@ public class MyNewFeatureTest {
 ```selenium-java/
 selenium-java/
 ├── src/
-│   ├── main/                  # contains the source code of the software
+│   ├── main/                  # Contains the source code of the software
 │   └── test/
 │       ├── java/
-│       │   ├── common/        # contains funtions and util (Browser, WaitUtils,…)
-│       │   ├── page/          # Page Object Model (POM)
+│       │   ├── common/        # Common utilities (e.g., Browser, BaseTest, etc.)
+│       │   ├── page/          # Page Object Model (POM) classes
 │       └── resources/
-│           └── testplan/      # chứa các file testplan XML (TestNG suites)
+│           └── testplan/      # TestNG XML suite files
+│               ├── bmi-testplan.xml            # Tests for body mass index calculator
+│               ├── checkbox-testplan.xml       # Tests for checkbox interactions
+│               ├── login-testplan.xml          # Tests for login functionality
+│               └── todomvc-testplan.xml        # Tests for TodoMVC task operations
 ├── .github/
 │   └── workflows/
-│       └── mvn.yml            # workflow GitHub Actions to run CI
-├── pom.xml                    # Maven build file
-└── readme.md                  # this file
+│       └── mvn.yml            # GitHub Actions workflow for CI
+├── pom.xml                    # Maven configuration file
+└── readme.md                  # This file
 ```
 ## 📄 For more details, please refer to the comments in the source code.
 

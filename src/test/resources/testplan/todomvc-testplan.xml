@@ -1,5 +1,5 @@
 <suite name="TodoMVC">
-    <test name="chrome">
+    <test name="TodoMVC on Chrome">
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="todo.TodoTest"/>
