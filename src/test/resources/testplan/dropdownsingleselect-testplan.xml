@@ -1,0 +1,11 @@
+<suite name="The Internet Herokuapp">
+    <test name="Dropdown select single option on Chrome">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="theInternet.DropdownSingleSelectTest"/>
+            <methods>
+                <include name="selectOptionSuccessfully"/>
+            </methods>
+        </classes>
+    </test>
+</suite>

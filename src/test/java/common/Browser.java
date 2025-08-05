@@ -7,13 +7,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Browser {
     //Selenium Owner methods -> static method
@@ -142,4 +141,16 @@ public class Browser {
     public static boolean isSelected(By element){
         return driver.findElement(element).isSelected();
     }
+
+    public static boolean isMultiple(By locator) {
+        Select select = new Select(driver.findElement(locator));
+        return select.isMultiple();
+    }
+
+    public static void selectByVisibleText(By element, String text){
+        Select select = new Select(driver.findElement(element));
+        select.selectByVisibleText(text);
+    }
+
+
 }
