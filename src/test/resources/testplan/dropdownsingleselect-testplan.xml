@@ -3,9 +3,6 @@
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="theInternet.DropdownSingleSelectTest"/>
-            <methods>
-                <include name="selectOptionSuccessfully"/>
-            </methods>
         </classes>
     </test>
 </suite>

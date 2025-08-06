@@ -38,25 +38,4 @@ public class DropdownSingleSelectTest extends BaseTest {
         Assert.assertTrue(dropdownPage.getResult("Option 2"));
 
     }
-
-    @Test
-    void selectMultipleOptionSuccessfully() {
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://output.jsbin.com/osebed/2");
-
-        Select select = new Select(driver.findElement(By.id("fruits")));
-
-        if (select.isMultiple()) {
-            System.out.println("Able select multiple options");
-        } else {
-            System.out.println("Select only 1 option");
-        }
-
-        select.selectByVisibleText("Banana");
-        select.selectByVisibleText("Apple");
-//        select.deselectByVisibleText("Apple");
-
-        Assert.assertTrue(driver.findElement(By.xpath("//option[.='Banana']")).isSelected());
-        Assert.assertTrue(driver.findElement(By.xpath("//option[.='Apple']")).isSelected());
-    }
 }

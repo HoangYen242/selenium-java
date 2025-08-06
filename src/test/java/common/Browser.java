@@ -13,6 +13,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Browser {
     //Selenium Owner methods -> static method
@@ -152,5 +154,16 @@ public class Browser {
         select.selectByVisibleText(text);
     }
 
+    public static void deselectVisibleText(By element, String text){
+        Select select = new Select(driver.findElement(element));
+        select.deselectByVisibleText(text);
+    }
 
+    public static List<String> getSelectedOptionsText(By element) {
+        Select select = new Select(driver.findElement(element));
+        return select.getAllSelectedOptions()
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
 }

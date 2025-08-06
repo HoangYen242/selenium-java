@@ -1,0 +1,7 @@
+<suite name="The Internet Herokuapp">
+    <test name="Dropdown select multiple options on Chrome">
+        <classes>
+            <class name="theInternet.DropdownMultipleSelectTest"/>
+        </classes>
+    </test>
+</suite>
