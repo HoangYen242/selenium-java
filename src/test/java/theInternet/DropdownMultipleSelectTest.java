@@ -11,8 +11,9 @@ import java.util.List;
 
 public class DropdownMultipleSelectTest extends BaseTest {
     DropdownMultiplePage dropdownMultiplePage;
+
     @BeforeClass
-    void openBrowser(){
+    void openBrowser() {
         Browser.launch("chrome");
         dropdownMultiplePage = new DropdownMultiplePage();
         dropdownMultiplePage.open();
@@ -30,10 +31,10 @@ public class DropdownMultipleSelectTest extends BaseTest {
         dropdownMultiplePage.selectMultipleOptions("Apple");
         dropdownMultiplePage.selectMultipleOptions("Orange");
 
-        List<String> selectedBefore=dropdownMultiplePage.getSelectOptions();
-        Assert.assertTrue(selectedBefore.containsAll(List.of("Banana","Apple", "Orange")));
+        List<String> selectedBefore = dropdownMultiplePage.getSelectOptions();
+        Assert.assertTrue(selectedBefore.containsAll(List.of("Banana", "Apple", "Orange")));
 
-        dropdownMultiplePage.deselectAnOption("Apple");
+        dropdownMultiplePage.deselectOption("Apple");
         List<String> selectedAfter = dropdownMultiplePage.getSelectOptions();
         Assert.assertTrue(selectedAfter.contains("Banana"));
         Assert.assertTrue(selectedAfter.contains("Orange"));

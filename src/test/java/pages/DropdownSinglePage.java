@@ -19,6 +19,10 @@ public class DropdownSinglePage {
         By selectedOption = By.xpath("//option[.='" + result + "']");
         return isSelected(selectedOption);    }
 
+    public void deselectOption(String text){
+        deselectVisibleText(selectDropdown, text);
+    }
+
     public boolean isDropdownMultiple(){
         return isMultiple(selectDropdown);
     }

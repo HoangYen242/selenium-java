@@ -1,7 +1,6 @@
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class DropdownMultiplePage {
         selectByVisibleText(selectDropdown, text);
     }
 
-    public void deselectAnOption(String text){
+    public void deselectOption(String text){
         deselectVisibleText(selectDropdown, text);
     }
 
@@ -29,5 +28,4 @@ public class DropdownMultiplePage {
     public List<String> getSelectOptions(){
         return getSelectedOptionsText(selectDropdown);
     }
-
 }

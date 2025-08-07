@@ -2,40 +2,44 @@ package theInternet;
 
 import common.BaseTest;
 import common.Browser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.DropdownSinglePage;
 
 public class DropdownSingleSelectTest extends BaseTest {
-    DropdownSinglePage dropdownPage;
+    DropdownSinglePage dropdownSinglePage;
 
-    @Parameters({"browser"})
+//    @Parameters({"browser"})
     @BeforeClass
-    void openBrowser(String browser) {
-        Browser.launch(browser);
-        dropdownPage = new DropdownSinglePage();
-        dropdownPage.open();
+    void openBrowser() {
+        Browser.launch("chrome");
+        dropdownSinglePage = new DropdownSinglePage();
+        dropdownSinglePage.open();
     }
 
-    @Test
-    void selectOptionSuccessfully() {
-        if (dropdownPage.isDropdownMultiple()) {
+    @BeforeMethod
+    void setUp(){
+        dropdownSinglePage.open();
+    }
+
+    @DataProvider(name = "dropdownData")
+    Object[][] data(){
+        return new Object[][]{
+                {"Option 1", "Option 1"},
+                {"Option 2", "Option 2"}
+        };
+    }
+
+    @Test(dataProvider = "dropdownData")
+    void selectOptionSuccessfully(String text, String expectedResult) {
+        if (dropdownSinglePage.isDropdownMultiple()) {
             System.out.println("Able select multiple options");
         } else {
             System.out.println("Select only 1 option");
         }
 
-        dropdownPage.selectAnOption("Option 1");
-        Assert.assertTrue(dropdownPage.getResult("Option 1"));
-
-        dropdownPage.selectAnOption("Option 2");
-        Assert.assertTrue(dropdownPage.getResult("Option 2"));
+        dropdownSinglePage.selectAnOption(text);
+        Assert.assertTrue(dropdownSinglePage.getResult(expectedResult));
 
     }
 }

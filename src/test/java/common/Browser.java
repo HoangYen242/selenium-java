@@ -156,7 +156,16 @@ public class Browser {
 
     public static void deselectVisibleText(By element, String text){
         Select select = new Select(driver.findElement(element));
-        select.deselectByVisibleText(text);
+        if(select.isMultiple()){
+            select.deselectByVisibleText(text);
+        }else {
+            throw new UnsupportedOperationException("Cannot deselect option from single-select dropdown");
+        }
+    }
+
+    public static String getFirstSelectedOptionText(By element){
+        Select select = new Select(driver.findElement(element));
+        return select.getFirstSelectedOption().getText();
     }
 
     public static List<String> getSelectedOptionsText(By element) {
