@@ -1,4 +1,4 @@
-<suite name="The Internet Herokuapp">
+<suite name="The Internet HerokuApp">
     <test name="Dropdown select single option on Chrome">
         <parameter name="browser" value="chrome"/>
         <classes>

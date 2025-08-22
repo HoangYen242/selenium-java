@@ -67,69 +67,69 @@ public class Browser {
         }
     }
 
-    public static void click(By element){
+    public static void click(By element) {
         driver.findElement(element).click();
     }
 
-    public static void clickWait(By element){
+    public static void clickWait(By element) {
         wait.until(ExpectedConditions.elementToBeClickable(element)).click();
     }
 
-    public static String getText(By element){
+    public static String getText(By element) {
         return driver.findElement(element).getText();
     }
 
-    public static String getTextWait(By element){
+    public static String getTextWait(By element) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(element)).getText();
     }
 
-    public static void sendKeys(By element, CharSequence withText){
+    public static void sendKeys(By element, CharSequence withText) {
         driver.findElement(element).sendKeys(withText);
     }
 
-    public static void visit(String url){
+    public static void visit(String url) {
         driver.get(url);
     }
 
-    public static void hover(By element){
+    public static void hover(By element) {
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(element)).perform();
     }
 
-    public static void doubleClick(By element){
+    public static void doubleClick(By element) {
         Actions actions = new Actions(driver);
         actions.doubleClick(driver.findElement(element)).perform();
     }
 
-    public static void executeJSScript(String script, WebElement element){
+    public static void executeJSScript(String script, WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(script, element);
     }
 
-    public static boolean isDisplayed(By element){
-        return driver.findElements(element).size()>0;
+    public static boolean isDisplayed(By element) {
+        return driver.findElements(element).size() > 0;
     }
 
-    public static String getCurrentUrl(){
+    public static String getCurrentUrl() {
         return driver.getCurrentUrl();
     }
 
-    public static void clearAndType(By element, String text){
+    public static void clearAndType(By element, String text) {
         driver.findElement(element).clear();
         driver.findElement(element).sendKeys(text);
     }
 
-    public static void clearCookies(){
-        if(driver !=null){
+    public static void clearCookies() {
+        if (driver != null) {
             driver.manage().deleteAllCookies();
         }
     }
 
-    public static void waitForUrl(String expectedUrl){
+    public static void waitForUrl(String expectedUrl) {
         wait.until(ExpectedConditions.urlToBe(expectedUrl));
     }
 
-    public static void acceptAlertIfPresent(){
+    public static void acceptAlertIfPresent() {
         try {
             WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
             Alert alert = shortWait.until(ExpectedConditions.alertIsPresent());
@@ -140,7 +140,7 @@ public class Browser {
         }
     }
 
-    public static boolean isSelected(By element){
+    public static boolean isSelected(By element) {
         return driver.findElement(element).isSelected();
     }
 
@@ -149,21 +149,21 @@ public class Browser {
         return select.isMultiple();
     }
 
-    public static void selectByVisibleText(By element, String text){
+    public static void selectByVisibleText(By element, String text) {
         Select select = new Select(driver.findElement(element));
         select.selectByVisibleText(text);
     }
 
-    public static void deselectVisibleText(By element, String text){
+    public static void deselectVisibleText(By element, String text) {
         Select select = new Select(driver.findElement(element));
-        if(select.isMultiple()){
+        if (select.isMultiple()) {
             select.deselectByVisibleText(text);
-        }else {
+        } else {
             throw new UnsupportedOperationException("Cannot deselect option from single-select dropdown");
         }
     }
 
-    public static String getFirstSelectedOptionText(By element){
+    public static String getFirstSelectedOptionText(By element) {
         Select select = new Select(driver.findElement(element));
         return select.getFirstSelectedOption().getText();
     }

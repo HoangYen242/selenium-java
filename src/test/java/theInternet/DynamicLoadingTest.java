@@ -1,29 +1,44 @@
 package theInternet;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import common.BaseTest;
+import common.Browser;
 import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+import pages.DynamicLoadingPage;
 
-import java.time.Duration;
+public class DynamicLoadingTest extends BaseTest {
+    DynamicLoadingPage dynamicLoadingPage;
 
-public class DynamicLoadingTest {
-    @Test
-    void elementIsHidden(){
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
-        driver.findElement(By.cssSelector("#start button")).click();
+    @Parameters({"browser"})
+    @BeforeClass
+    void openBrowser(String browser) {
+        Browser.launch(browser);
+        dynamicLoadingPage = new DynamicLoadingPage();
+        dynamicLoadingPage.open();
+    }
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        //explicit wait: check element show in UI in 10 seconds
-        String finish = wait
-                .until(ExpectedConditions
-                        .visibilityOfElementLocated(By.cssSelector("#finish h4")))
-                .getText();
+    @BeforeMethod
+    void setUp() {
+        dynamicLoadingPage.open();
+    }
 
-        Assert.assertEquals(finish,"Hello World!");
+    @DataProvider(name = "dynamicData")
+    Object[][] data() {
+        return new Object[][]{
+                {"Hello World!", true},
+                {"Hello", false}
+        };
+    }
+
+    @Test(dataProvider = "dynamicData")
+    void elementIsHidden(String expectedResult, boolean shouldMatch) {
+        dynamicLoadingPage.clickStartButton();
+
+        String actual = dynamicLoadingPage.getResult();
+        if (shouldMatch) {
+            Assert.assertEquals(actual, expectedResult, "Expected text should match");
+        } else {
+                Assert.assertNotEquals(actual, expectedResult, "Negative case: result should not match");
+        }
     }
 }

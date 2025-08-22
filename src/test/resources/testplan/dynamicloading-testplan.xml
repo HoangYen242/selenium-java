@@ -1,0 +1,8 @@
+<suite name="The Internet HerokuApp">
+    <test name="Dynamic Loading on Edge">
+        <parameter name="browser" value="edge"/>
+        <classes>
+            <class name="theInternet.DynamicLoadingTest"/>
+        </classes>
+    </test>
+</suite>

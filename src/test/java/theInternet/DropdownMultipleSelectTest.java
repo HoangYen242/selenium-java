@@ -4,6 +4,7 @@ import common.BaseTest;
 import common.Browser;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pages.DropdownMultiplePage;
 
@@ -12,9 +13,10 @@ import java.util.List;
 public class DropdownMultipleSelectTest extends BaseTest {
     DropdownMultiplePage dropdownMultiplePage;
 
+    @Parameters({"browser"})
     @BeforeClass
-    void openBrowser() {
-        Browser.launch("chrome");
+    void openBrowser(String browser) {
+        Browser.launch(browser);
         dropdownMultiplePage = new DropdownMultiplePage();
         dropdownMultiplePage.open();
     }

@@ -9,10 +9,10 @@ import pages.DropdownSinglePage;
 public class DropdownSingleSelectTest extends BaseTest {
     DropdownSinglePage dropdownSinglePage;
 
-//    @Parameters({"browser"})
+    @Parameters({"browser"})
     @BeforeClass
-    void openBrowser() {
-        Browser.launch("chrome");
+    void openBrowser(String browser) {
+        Browser.launch(browser);
         dropdownSinglePage = new DropdownSinglePage();
         dropdownSinglePage.open();
     }
