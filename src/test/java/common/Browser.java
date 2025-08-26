@@ -21,7 +21,7 @@ public class Browser {
 
     private static WebDriver driver;
     private static WebDriverWait wait;
-    private static int TIME_OUT_IN_SECONDS = 30;
+    private static int TIME_OUT_IN_SECONDS = 20;
 
     public static void launch(String browserName) {
         if (browserName.equalsIgnoreCase("chrome")) {
@@ -174,5 +174,9 @@ public class Browser {
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+    }
+
+    public static void back(){
+        driver.navigate().back();
     }
 }

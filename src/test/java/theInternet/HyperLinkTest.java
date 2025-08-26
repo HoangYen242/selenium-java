@@ -1,35 +1,50 @@
 package theInternet;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import common.BaseTest;
+import common.Browser;
 import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+import pages.HyperLinkPage;
 
-public class HyperLinkTest {
-    @Test
-    void canClickOnHyperLinksSuccessfully() {
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/status_codes");
+public class HyperLinkTest extends BaseTest {
+    HyperLinkPage hyperLinkPage;
 
-        driver.findElement(By.linkText("200")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/200");
-        driver.navigate().back();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes");
+    @Parameters({"browser"})
+    @BeforeClass
+    void openBrowser(String browser){
+        Browser.launch(browser);
+        hyperLinkPage = new HyperLinkPage();
+        hyperLinkPage.open();
+    }
 
-        driver.findElement(By.linkText("301")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/301");
-        driver.findElement(By.linkText("here")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes");
+    @BeforeMethod
+    void setUp(){
+        hyperLinkPage.open();
+    }
 
-        driver.findElement(By.linkText("404")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/404");
-        driver.findElement(By.linkText("here")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes");
+    @DataProvider(name= "hyperlinkData")
+    Object[][] data(){
+        return new  Object[][]{
+                {"200", "https://the-internet.herokuapp.com/status_codes/200", "https://the-internet.herokuapp.com/status_codes"},
+                {"301", "https://the-internet.herokuapp.com/status_codes/301", "https://the-internet.herokuapp.com/status_codes"},
+        };
+    }
 
-        driver.findElement(By.linkText("500")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/500");
-        driver.findElement(By.linkText("here")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes");
+    @Test(dataProvider = "hyperlinkData")
+    void canNavigateBackViaHereLink(String code, String expectedURL, String expectedBackURL) {
+        hyperLinkPage.openHyperlink(code);
+        Assert.assertEquals(hyperLinkPage.getCurrentURL(), expectedURL);
+
+        hyperLinkPage.returnViaHereLink();
+        Assert.assertEquals(hyperLinkPage.getCurrentURL(), expectedBackURL);
+    }
+
+    @Test(dataProvider = "hyperlinkData")
+    void canNavigateBackViaBrowserBack(String code, String expectedURL, String expectedBackURL) {
+        hyperLinkPage.openHyperlink(code);
+        Assert.assertEquals(hyperLinkPage.getCurrentURL(), expectedURL);
+
+        hyperLinkPage.returnViaBrowserBack();
+        Assert.assertEquals(hyperLinkPage.getCurrentURL(), expectedBackURL);
     }
 }

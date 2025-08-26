@@ -1,0 +1,8 @@
+<suite name="The Internet HerokuApp">
+    <test name="Hyperlink on Chrome">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="theInternet.HyperLinkTest"/>
+        </classes>
+    </test>
+</suite>
