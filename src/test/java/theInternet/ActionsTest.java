@@ -1,28 +1,26 @@
 package theInternet;
 
+import common.BaseTest;
+import common.Browser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import pages.HoversPage;
 
-import java.util.List;
-
-public class ActionsTest {
+public class ActionsTest extends BaseTest {
+    HoversPage hoversPage;
+    @BeforeClass
+    void openBrowser(){
+        Browser.launch("chrome");
+        hoversPage = new HoversPage();
+        hoversPage.open();
+    }
     @Test
-    void hoverAvatars() throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/hovers");
-
-        Actions mouse = new Actions(driver);
-        List<WebElement> avatars =  driver.findElements(By.cssSelector(".figure img"));
-        for (WebElement avatar:avatars){
-            Thread.sleep(1000);
-            mouse
-                    .moveToElement(avatar)
-                    .perform();
-        }
+    void shouldHoverOnAllAvatars() throws InterruptedException {
+       hoversPage.hoverOnAllAvatars();
     }
 
     @Test

@@ -91,9 +91,14 @@ public class Browser {
         driver.get(url);
     }
 
-    public static void hover(By element) {
+    public static void hoverBy(By element) {
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(element)).perform();
+    }
+
+    public static void hoverElement(WebElement element){
+        wait.until(ExpectedConditions.visibilityOf(element));
+        new Actions(driver).moveToElement(element).pause(Duration.ofSeconds(5)).perform();
     }
 
     public static void doubleClick(By element) {

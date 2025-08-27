@@ -41,7 +41,7 @@ public class TodoMVCPage {
     }
 
     public void delete(String taskName) {
-        hover(getTaskByName(taskName));
+        hoverBy(getTaskByName(taskName));
         click(By.xpath(String.format("//label[.='%s']/following-sibling::button", taskName)));
     }
 
