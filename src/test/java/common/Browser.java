@@ -3,7 +3,6 @@ package common;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -25,9 +24,9 @@ public class Browser {
 
     public static void launch(String browserName) {
         if (browserName.equalsIgnoreCase("chrome")) {
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--headless=new");
-            driver = new ChromeDriver(chromeOptions);
+//            ChromeOptions chromeOptions = new ChromeOptions();
+//            chromeOptions.addArguments("--headless=new");
+            driver = new ChromeDriver();
         } else if (browserName.equalsIgnoreCase("edge")) {
             driver = new EdgeDriver();
         } else {
@@ -75,6 +74,15 @@ public class Browser {
         wait.until(ExpectedConditions.elementToBeClickable(element)).click();
     }
 
+    public static void rightClick(By locator) {
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        Actions mouse = new Actions(driver);
+        mouse
+                .moveToElement(element)
+                .contextClick(element)
+                .perform();
+}
+
     public static String getText(By element) {
         return driver.findElement(element).getText();
     }
@@ -96,9 +104,9 @@ public class Browser {
         actions.moveToElement(driver.findElement(element)).perform();
     }
 
-    public static void hoverElement(WebElement element){
+    public static void hoverElement(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
-        new Actions(driver).moveToElement(element).pause(Duration.ofSeconds(5)).perform();
+        new Actions(driver).moveToElement(element).pause(Duration.ofSeconds(2)).perform();
     }
 
     public static void doubleClick(By element) {
@@ -135,8 +143,8 @@ public class Browser {
     }
 
     public static void acceptAlertIfPresent() {
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
         try {
-            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
             Alert alert = shortWait.until(ExpectedConditions.alertIsPresent());
             alert.accept();
             System.out.println("Alert was present and accepted.");
@@ -181,7 +189,28 @@ public class Browser {
                 .collect(Collectors.toList());
     }
 
-    public static void back(){
+    public static void back() {
         driver.navigate().back();
     }
+
+    public static String getAlertTextIfPresent() {
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        try {
+            Alert alert = shortWait.until(ExpectedConditions.alertIsPresent());
+            return alert.getText();
+        } catch (TimeoutException e) {
+            throw new AssertionError("Expected alert, but no alert was present within 3 seconds.");
+        }
+    }
+
+    public static void waitUntilVisible(By locator) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    public static void waitForPageReady() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete"));
+    }
+
 }
