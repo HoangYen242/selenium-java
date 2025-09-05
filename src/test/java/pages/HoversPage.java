@@ -10,6 +10,9 @@ import static common.Browser.*;
 
 public class HoversPage {
     private By avatarImages = By.cssSelector(".figure img");
+    private By caption = By.tagName("h5");
+    private By parentAvatar = By.xpath("./..");
+    private By profileLink = By.tagName("a");
 
     public void open(){
         visit("https://the-internet.herokuapp.com/hovers");
@@ -27,5 +30,15 @@ public class HoversPage {
         for (WebElement avatar :  getAvatars()){
             Browser.hoverElement(avatar);
         }
+    }
+
+    public String getUsernameText(WebElement avatar){
+        WebElement parent = avatar.findElement(parentAvatar);
+        return parent.findElement(caption).getText();
+    }
+
+    public String getProfileLink(WebElement avatar){
+        WebElement parent = avatar.findElement(parentAvatar);
+        return parent.findElement(profileLink).getText();
     }
 }

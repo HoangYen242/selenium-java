@@ -20,7 +20,8 @@ public class Browser {
 
     private static WebDriver driver;
     private static WebDriverWait wait;
-    private static int TIME_OUT_IN_SECONDS = 20;
+    private static int TIME_OUT_IN_SECONDS = 10;
+    private static int HOVER_PAUSE_SECONDS = 2;
 
     public static void launch(String browserName) {
         if (browserName.equalsIgnoreCase("chrome")) {
@@ -106,7 +107,10 @@ public class Browser {
 
     public static void hoverElement(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
-        new Actions(driver).moveToElement(element).pause(Duration.ofSeconds(2)).perform();
+        new Actions(driver)
+                .moveToElement(element)
+                .pause(Duration.ofSeconds(HOVER_PAUSE_SECONDS))
+                .perform();
     }
 
     public static void doubleClick(By element) {
