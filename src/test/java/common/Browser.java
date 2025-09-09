@@ -217,4 +217,10 @@ public class Browser {
                         .executeScript("return document.readyState").equals("complete"));
     }
 
+    public static void keyPresses(By element, CharSequence key){
+        Actions keyboard = new Actions(driver);
+        keyboard.sendKeys(key).perform();
+    }
+
+
 }

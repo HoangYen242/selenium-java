@@ -2,9 +2,7 @@
     <test name="Actions on Chrome">
         <classes>
             <class name="theInternet.ActionsTest"/>
-            <methods>
-                <include name="shouldHoverOnAllAvatars"/>
-            </methods>
+
         </classes>
     </test>
 </suite>

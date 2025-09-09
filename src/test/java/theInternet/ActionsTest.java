@@ -2,15 +2,15 @@ package theInternet;
 
 import common.BaseTest;
 import common.Browser;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.HoversPage;
+import pages.KeyPressPage;
 import pages.RightClickPage;
 
 import java.lang.reflect.Method;
@@ -20,12 +20,15 @@ import java.util.List;
 public class ActionsTest extends BaseTest {
     HoversPage hoversPage;
     RightClickPage rightClickPage;
+    KeyPressPage keyPressPage;
+
 
     @BeforeClass
     void openBrowser() {
         Browser.launch("chrome");
         hoversPage = new HoversPage();
         rightClickPage = new RightClickPage();
+        keyPressPage = new KeyPressPage();
     }
 
     @BeforeMethod
@@ -35,6 +38,8 @@ public class ActionsTest extends BaseTest {
             hoversPage.open();
         } else if (Arrays.asList(testAnnotation.groups()).contains("context")) {
             rightClickPage.open();
+        } else if (Arrays.asList(testAnnotation.groups()).contains("keypress")) {
+            keyPressPage.open();
         }
     }
 
@@ -53,15 +58,6 @@ public class ActionsTest extends BaseTest {
             Assert.assertEquals(userName, "name: user" + (i + 1));
             Assert.assertEquals(profileLink, "View profile");
 
-//        List<WebElement> avatars = hoversPage.getAvatars();
-//
-//        for (int i = 0; i < avatars.size(); i++) {
-//            WebElement avatar = avatars.get(i);
-//            hoversPage.hoverOnAvatar(avatar);
-//
-//            String caption = hoversPage.getUsernameText(avatar);
-//
-//            System.out.println("Avatar " + (i + 1) + " caption:\n " + caption);
 //
 //            Assert.assertTrue(caption.contains("user" + (i + 1))
 //                    , "Expected caption to contain user" + (i + 1));
@@ -69,7 +65,6 @@ public class ActionsTest extends BaseTest {
 //            Assert.assertTrue(hoversPage.isProfileLinkDisplayed(avatar)
 //                    , "Expected 'View profile' link to be displayed for avartar " + (i + 1));
         }
-
 
     }
 
@@ -83,23 +78,39 @@ public class ActionsTest extends BaseTest {
         rightClickPage.acceptAlert();
     }
 
-    @Test
-    void keyPress() throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/key_presses?");
+    @DataProvider
+    public Object[] validKeysData() {
+        return new Object[][]{
+                {"A", "A"},
+                {"B", "B"},
+                {Keys.SPACE, "SPACE"},
+                {Keys.BACK_SPACE, "BACK_SPACE"},
+                {Keys.ENTER, "ENTER"}
+        };
+    }
 
-        Actions keyboard = new Actions(driver);
+    @DataProvider
+    public Object[] invalidKeysData() {
+        return new Object[][]{
+                {"A", "B"},
+                {Keys.SPACE, "BACK_SPACE"},
+                {Keys.BACK_SPACE, "ENTER"},
+        };
+    }
 
-        keyboard.sendKeys("A").perform();
-        Thread.sleep(1000);
+    @Test(dataProvider = "validKeysData", groups = "keypress")
+    void couldDetectValidKey(CharSequence key, String expectedResult) {
+        keyPressPage.pressKey(key);
 
-        keyboard.sendKeys("B").perform();
-        Thread.sleep(1000);
+        String result = keyPressPage.getResult();
+        Assert.assertEquals(result, "You entered: " + expectedResult);
+    }
 
-        keyboard.sendKeys("C").perform();
-        Thread.sleep(1000);
+    @Test(dataProvider = "invalidKeysData", groups = "keypress")
+    void couldIgnoreInvalidKey(CharSequence key, String expectedResult) {
+        keyPressPage.pressKey(key);
 
-        keyboard.sendKeys("D").perform();
-        Thread.sleep(1000);
+        String result = keyPressPage.getResult();
+        Assert.assertNotEquals(result, expectedResult,"Unexpected result for key: " + key);
     }
 }
