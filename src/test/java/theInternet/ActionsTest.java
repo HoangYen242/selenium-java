@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.HoversPage;
-import pages.KeyPressPage;
+import pages.KeyPressesPage;
 import pages.RightClickPage;
 
 import java.lang.reflect.Method;
@@ -20,7 +20,7 @@ import java.util.List;
 public class ActionsTest extends BaseTest {
     HoversPage hoversPage;
     RightClickPage rightClickPage;
-    KeyPressPage keyPressPage;
+    KeyPressesPage keyPressPage;
 
 
     @BeforeClass
@@ -28,7 +28,7 @@ public class ActionsTest extends BaseTest {
         Browser.launch("chrome");
         hoversPage = new HoversPage();
         rightClickPage = new RightClickPage();
-        keyPressPage = new KeyPressPage();
+        keyPressPage = new KeyPressesPage();
     }
 
     @BeforeMethod

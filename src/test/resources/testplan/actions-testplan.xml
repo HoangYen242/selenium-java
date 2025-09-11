@@ -2,7 +2,6 @@
     <test name="Actions on Chrome">
         <classes>
             <class name="theInternet.ActionsTest"/>
-
         </classes>
     </test>
 </suite>

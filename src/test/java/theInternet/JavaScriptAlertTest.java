@@ -1,23 +1,35 @@
 package theInternet;
 
+import common.BaseTest;
+import common.Browser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.JavaScriptAlertPage;
 
-public class JavaScriptAlertTest {
+public class JavaScriptAlertTest extends BaseTest {
+    JavaScriptAlertPage javaScriptAlertPage;
+
+    @BeforeClass
+    void openBrowser(){
+        Browser.launch("chrome");
+        javaScriptAlertPage = new JavaScriptAlertPage();
+    }
+
+    @BeforeMethod
+    void setUp(){
+        javaScriptAlertPage.open();
+    }
+
     @Test
     void jsAlert(){
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
-
-        driver.findElement(By.xpath("//button[.='Click for JS Alert']")).click();
-
-        driver.switchTo().alert().accept();//OK
-        String resultMessage = driver.findElement(By.id("result")).getText();
-        Assert.assertEquals(resultMessage,"You successfully clicked an alert");
-
+        javaScriptAlertPage.clickForJSAlert();
+        javaScriptAlertPage.acceptAlert();
+        Assert.assertEquals(javaScriptAlertPage.getResult(),"You successfully clicked an alert");
     }
 
     @Test
@@ -27,7 +39,7 @@ public class JavaScriptAlertTest {
 
         driver.findElement(By.xpath("//button[.='Click for JS Confirm']")).click();
 
-//        driver.switchTo().alert().accept();
+//        driver.switchTo().alert().accept();//OK
 //        String successMessage = driver.findElement(By.id("result")).getText();
 //        Assert.assertEquals(successMessage,"You clicked: Ok");
 

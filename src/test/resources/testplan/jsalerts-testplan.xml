@@ -1,0 +1,10 @@
+<suite name="The Internet Heroku App">
+    <test name="Handle JS Alerts Pop-up on Chrome">
+        <classes>
+            <class name="theInternet.JavaScriptAlertTest"/>
+            <methods>
+                <include name="jsAlert"/>
+            </methods>
+        </classes>
+    </test>
+</suite>

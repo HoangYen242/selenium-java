@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 
 import static common.Browser.*;
 
-public class KeyPressPage {
+public class KeyPressesPage {
     private By keyTextbox = By.cssSelector("input[type='text']");
     private By resultLabel = By.id("result");
     public void open(){
