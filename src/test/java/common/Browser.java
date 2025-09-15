@@ -83,7 +83,7 @@ public class Browser {
                 .moveToElement(element)
                 .contextClick(element)
                 .perform();
-}
+    }
 
     public static String getText(By element) {
         return driver.findElement(element).getText();
@@ -158,6 +158,17 @@ public class Browser {
         }
     }
 
+    public static void dismissAlertIfPresent() {
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        try {
+            Alert alert = shortWait.until(ExpectedConditions.alertIsPresent());
+            alert.dismiss();
+            System.out.println("Alert was present and canceled.");
+        } catch (TimeoutException e) {
+            System.out.println("No alert present");
+        }
+    }
+
     public static boolean isSelected(By element) {
         return driver.findElement(element).isSelected();
     }
@@ -218,7 +229,7 @@ public class Browser {
                         .executeScript("return document.readyState").equals("complete"));
     }
 
-    public static void keyPresses(By element, CharSequence key){
+    public static void keyPresses(By element, CharSequence key) {
         Actions keyboard = new Actions(driver);
         keyboard.sendKeys(key).perform();
     }

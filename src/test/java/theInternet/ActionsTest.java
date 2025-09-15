@@ -79,7 +79,7 @@ public class ActionsTest extends BaseTest {
     }
 
     @DataProvider
-    public Object[] validKeysData() {
+    public Object[][] validKeysData() {
         return new Object[][]{
                 {"A", "A"},
                 {"B", "B"},
@@ -90,11 +90,11 @@ public class ActionsTest extends BaseTest {
     }
 
     @DataProvider
-    public Object[] invalidKeysData() {
+    public Object[][] invalidKeysData() {
         return new Object[][]{
-                {"A", "B"},
-                {Keys.SPACE, "BACK_SPACE"},
-                {Keys.BACK_SPACE, "ENTER"},
+                {"A", "You entered: A"},
+                {Keys.SPACE, "You entered: BACK_SPACE"},
+                {Keys.BACK_SPACE, "You entered: ENTER"},
         };
     }
 
