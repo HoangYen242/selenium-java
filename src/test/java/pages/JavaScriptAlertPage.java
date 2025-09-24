@@ -6,7 +6,8 @@ import static common.Browser.*;
 
 public class JavaScriptAlertPage {
     private By jsAlertButton = By.xpath("//button[.='Click for JS Alert']");
-    private By jsConfirmbutton = By.xpath("//button[.='Click for JS Confirm']");
+    private By jsConfirmButton = By.xpath("//button[.='Click for JS Confirm']");
+    private By jsPromptButton = By.xpath("//button[.='Click for JS Prompt']");
     private By resultLabel = By.id("result");
 
 
@@ -27,11 +28,19 @@ public class JavaScriptAlertPage {
     }
 
     public void clickForJSConfirmButton(){
-        click(jsConfirmbutton);
+        click(jsConfirmButton);
     }
 
     public void dismissAlert(){
         dismissAlertIfPresent();
+    }
+
+    public void clickForJSPromptButton(){
+        click(jsPromptButton);
+    }
+
+    public void enterTextInPrompt(String text){
+        sendKeysToAlert(text);
     }
 
 }

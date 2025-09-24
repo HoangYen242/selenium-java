@@ -3,8 +3,6 @@ package theInternet;
 import common.BaseTest;
 import common.Browser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -16,18 +14,18 @@ public class JavaScriptAlertTest extends BaseTest {
     JavaScriptAlertPage javaScriptAlertPage;
 
     @BeforeClass
-    void openBrowser(){
+    void openBrowser() {
         Browser.launch("chrome");
         javaScriptAlertPage = new JavaScriptAlertPage();
     }
 
     @BeforeMethod
-    void setUp(){
+    void setUp() {
         javaScriptAlertPage.open();
     }
 
     @DataProvider
-    Object[][] confirmActions(){
+    Object[][] confirmActions() {
         return new Object[][]{
                 {"accept", "You clicked: Ok"},
                 {"dismiss", "You clicked: Cancel"}
@@ -35,60 +33,72 @@ public class JavaScriptAlertTest extends BaseTest {
     }
 
     @DataProvider
-    Object[][] invalidActions(){
+    Object[][] invalidActions() {
         return new Object[][]{
-                {"accept", "You clicked: Ok"},
+                {"accept", "You clicked: Cancel"},
                 {"dismiss", "You clicked: OK"}
         };
     }
 
     @Test
-    void shouldAcceptJSAlert(){
+    void shouldAcceptJSAlert() {
         javaScriptAlertPage.clickForJSAlertButton();
         javaScriptAlertPage.acceptAlert();
-        Assert.assertEquals(javaScriptAlertPage.getResultMessage(),"You successfully clicked an alert");
+        Assert.assertEquals(javaScriptAlertPage.getResultMessage(), "You successfully clicked an alert");
     }
 
     @Test(dataProvider = "confirmActions")
-    void shouldHandleJSConfirmCorrectly(String action, String expectedMessage){
+    void shouldHandleJSConfirmCorrectly(String action, String expectedMessage) {
         javaScriptAlertPage.clickForJSConfirmButton();
 
-        if (action.equals("accept")){
+        if (action.equals("accept")) {
             javaScriptAlertPage.acceptAlert();
-        }else if (action.equals("dismiss")){
+        } else if (action.equals("dismiss")) {
             javaScriptAlertPage.dismissAlert();
         }
 
         Assert.assertEquals(javaScriptAlertPage.getResultMessage()
-                ,expectedMessage
-                ,"Result message " + action + " is incorrect.");
+                , expectedMessage
+                , "Result message " + action + " is incorrect.");
     }
 
     @Test(dataProvider = "invalidActions")
-    void shouldDetectMismatchInJSConfirm(String action, String expectedMessage){
+    void shouldDetectMismatchInJSConfirm(String action, String expectedMessage) {
         javaScriptAlertPage.clickForJSConfirmButton();
 
-        if (action.equals("accept")){
+        if (action.equals("accept")) {
             javaScriptAlertPage.acceptAlert();
-        }else if(action.equals("dismiss")){
+        } else if (action.equals("dismiss")) {
             javaScriptAlertPage.dismissAlert();
         }
 
-        Assert.assertNotEquals(javaScriptAlertPage.getResultMessage(), expectedMessage, "Unexpected result message for " + action);
+        Assert.assertNotEquals(javaScriptAlertPage.getResultMessage()
+                , expectedMessage
+                , "Unexpected result message for " + action);
     }
 
-    @Test
-    void jsCPrompt(){
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
+    @DataProvider
+    Object[][] promptData() {
+        return new Object[][]{
+                {"Hello", "accept", "You entered: Hello"},
+                {"Hello", "dismiss", "You entered: null"},
+                {"", "accept", "You entered:"},
+                {"", "dismiss", "You entered: null"}
+        };
+    }
 
-        driver.findElement(By.xpath("//button[.='Click for JS Prompt']")).click();
-        driver.switchTo().alert().sendKeys("Hello");
+    @Test(dataProvider = "promptData")
+    void jsCPrompt(String text, String action, String expectedMessage) {
+        javaScriptAlertPage.clickForJSPromptButton();
+        javaScriptAlertPage.enterTextInPrompt(text);
 
-        driver.switchTo().alert().accept();
-        String resultMessage = driver.findElement(By.id("result")).getText();
-        Assert.assertEquals(resultMessage,"You entered: Hello");
+        if (action.equals("accept")) {
+            javaScriptAlertPage.acceptAlert();
+        } else if (action.equals("dismiss")) {
+            javaScriptAlertPage.dismissAlert();
+        }
 
+        Assert.assertEquals(javaScriptAlertPage.getResultMessage(), expectedMessage);
 
     }
 }

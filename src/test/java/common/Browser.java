@@ -97,6 +97,17 @@ public class Browser {
         driver.findElement(element).sendKeys(withText);
     }
 
+    public static void sendKeysToAlert(CharSequence text){
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            try {
+                Alert alert = shortWait.until(ExpectedConditions.alertIsPresent());
+                alert.sendKeys((String) text);
+                System.out.println("Sent text to alert: " + text);
+            }catch (TimeoutException e){
+                System.out.println("No alert present.");
+            }
+    }
+
     public static void visit(String url) {
         driver.get(url);
     }
