@@ -2,7 +2,6 @@ package theInternet;
 
 import common.BaseTest;
 import common.Browser;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -24,6 +23,23 @@ public class JavaScriptAlertTest extends BaseTest {
         javaScriptAlertPage.open();
     }
 
+
+
+    @Test
+    void shouldAcceptJSAlert() {
+        javaScriptAlertPage.clickForJSAlertButton();
+        javaScriptAlertPage.acceptAlert();
+        Assert.assertEquals(javaScriptAlertPage.getResultMessage()
+                , "You successfully clicked an alert");
+    }
+
+    @Test
+    void shouldDetectMismatchInJSAlert(){
+        javaScriptAlertPage.clickForJSAlertButton();
+        javaScriptAlertPage.acceptAlert();
+        Assert.assertNotEquals(javaScriptAlertPage.getResultMessage(), "You successfully clicked an alert.");
+    }
+
     @DataProvider
     Object[][] confirmActions() {
         return new Object[][]{
@@ -38,13 +54,6 @@ public class JavaScriptAlertTest extends BaseTest {
                 {"accept", "You clicked: Cancel"},
                 {"dismiss", "You clicked: OK"}
         };
-    }
-
-    @Test
-    void shouldAcceptJSAlert() {
-        javaScriptAlertPage.clickForJSAlertButton();
-        javaScriptAlertPage.acceptAlert();
-        Assert.assertEquals(javaScriptAlertPage.getResultMessage(), "You successfully clicked an alert");
     }
 
     @Test(dataProvider = "confirmActions")
@@ -83,12 +92,26 @@ public class JavaScriptAlertTest extends BaseTest {
                 {"Hello", "accept", "You entered: Hello"},
                 {"Hello", "dismiss", "You entered: null"},
                 {"", "accept", "You entered:"},
+                {"", "dismiss", "You entered: null"},
+                {"chào", "accept", "You entered: chào"},
+                {"@#$", "accept", "You entered: @#$"},
+                {"\uD83D\uDE0A", "accept", "You entered: \uD83D\uDE0A"},
+        };
+    }
+
+    @DataProvider
+    Object[][] promptFailData(){
+        return new Object[][]{
+                {"Hello", "accept", "You entered: hello"},
+                {"Hello", "dismiss", "You entered:"},
+                {"", "dismiss", "You entered: hi"},
+                {"", "dismiss", "You entered:"},
                 {"", "dismiss", "You entered: null"}
         };
     }
 
     @Test(dataProvider = "promptData")
-    void jsCPrompt(String text, String action, String expectedMessage) {
+    void shouldHandleJSPromptInputCorrectly(String text, String action, String expectedMessage) {
         javaScriptAlertPage.clickForJSPromptButton();
         javaScriptAlertPage.enterTextInPrompt(text);
 
@@ -98,7 +121,25 @@ public class JavaScriptAlertTest extends BaseTest {
             javaScriptAlertPage.dismissAlert();
         }
 
-        Assert.assertEquals(javaScriptAlertPage.getResultMessage(), expectedMessage);
+        Assert.assertEquals(javaScriptAlertPage.getResultMessage()
+                , expectedMessage
+                , "Result message " + action + " is incorrect.");
 
+    }
+
+    @Test(dataProvider = "promptFailData")
+    void shouldDetectMismatchInJSPrompt(String text, String action, String expectedMessage){
+        javaScriptAlertPage.clickForJSPromptButton();
+        javaScriptAlertPage.enterTextInPrompt(text);
+
+        if (action.equals("accept")){
+            javaScriptAlertPage.acceptAlert();
+        }else if(action.equals("dismiss")){
+            javaScriptAlertPage.dismissAlert();
+        }
+
+        Assert.assertNotEquals(javaScriptAlertPage.getResultMessage()
+                , expectedMessage
+                , "Unexpected result for: " + action);
     }
 }
