@@ -2,6 +2,7 @@ package theInternet;
 
 import common.BaseTest;
 import common.Browser;
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -24,7 +25,6 @@ public class JavaScriptAlertTest extends BaseTest {
     }
 
 
-
     @Test
     void shouldAcceptJSAlert() {
         javaScriptAlertPage.clickForJSAlertButton();
@@ -34,7 +34,7 @@ public class JavaScriptAlertTest extends BaseTest {
     }
 
     @Test
-    void shouldDetectMismatchInJSAlert(){
+    void shouldDetectMismatchInJSAlert() {
         javaScriptAlertPage.clickForJSAlertButton();
         javaScriptAlertPage.acceptAlert();
         Assert.assertNotEquals(javaScriptAlertPage.getResultMessage(), "You successfully clicked an alert.");
@@ -100,13 +100,12 @@ public class JavaScriptAlertTest extends BaseTest {
     }
 
     @DataProvider
-    Object[][] promptFailData(){
+    Object[][] promptFailData() {
         return new Object[][]{
                 {"Hello", "accept", "You entered: hello"},
                 {"Hello", "dismiss", "You entered:"},
                 {"", "dismiss", "You entered: hi"},
-                {"", "dismiss", "You entered:"},
-                {"", "dismiss", "You entered: null"}
+                {"", "dismiss", "You entered:"}
         };
     }
 
@@ -128,13 +127,13 @@ public class JavaScriptAlertTest extends BaseTest {
     }
 
     @Test(dataProvider = "promptFailData")
-    void shouldDetectMismatchInJSPrompt(String text, String action, String expectedMessage){
+    void shouldDetectMismatchInJSPrompt(String text, String action, String expectedMessage) {
         javaScriptAlertPage.clickForJSPromptButton();
         javaScriptAlertPage.enterTextInPrompt(text);
 
-        if (action.equals("accept")){
+        if (action.equals("accept")) {
             javaScriptAlertPage.acceptAlert();
-        }else if(action.equals("dismiss")){
+        } else if (action.equals("dismiss")) {
             javaScriptAlertPage.dismissAlert();
         }
 
@@ -142,4 +141,26 @@ public class JavaScriptAlertTest extends BaseTest {
                 , expectedMessage
                 , "Unexpected result for: " + action);
     }
+
+    @DataProvider
+    Object[][] promptActions(){
+        return new Object[][]{
+                {"Hello", Keys.ENTER, "You entered: Hello"},
+                {"Hello", Keys.ESCAPE, "You entered: null"},
+                {"", Keys.ENTER, "You entered:"},
+                {"", Keys.ESCAPE, "You entered: null"},
+
+        };
+    }
+
+    @Test(dataProvider = "promptActions")
+    void shouldHandleJSPromptInputWithKeyBoardCorrectly(String text, CharSequence key, String expectedMessage) {
+        javaScriptAlertPage.clickForJSPromptButton();
+        javaScriptAlertPage.enterTextInPrompt(text);
+
+        Browser.pressKeyOnAlert(key);
+
+        Assert.assertEquals(javaScriptAlertPage.getResultMessage(), expectedMessage, "Result message " + key + " is incorrect.");
+    }
 }
+

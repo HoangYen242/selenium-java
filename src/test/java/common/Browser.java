@@ -108,6 +108,24 @@ public class Browser {
             }
     }
 
+    public static void pressKeyOnAlert(CharSequence key){
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+
+        try {
+            Alert alert = shortWait.until(ExpectedConditions.alertIsPresent());
+
+            if (Keys.ENTER.equals(key)){
+                alert.accept();
+                System.out.println("Alert was present and accepted.");
+            }else if (Keys.ESCAPE.equals(key)){
+                alert.dismiss();
+                System.out.println("Alert was present and canceled.");
+            }
+        }catch (TimeoutException e){
+            System.out.println("No alert present.");
+        }
+    }
+
     public static void visit(String url) {
         driver.get(url);
     }
@@ -244,6 +262,5 @@ public class Browser {
         Actions keyboard = new Actions(driver);
         keyboard.sendKeys(key).perform();
     }
-
 
 }
