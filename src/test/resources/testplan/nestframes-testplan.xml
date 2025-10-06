@@ -1,0 +1,7 @@
+<suite name="The Internet HerokuApp">
+    <test name="Nest frames test on Chrome">
+        <classes>
+            <class name="theInternet.NestFramesTest"/>
+        </classes>
+    </test>
+</suite>

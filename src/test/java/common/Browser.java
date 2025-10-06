@@ -262,5 +262,16 @@ public class Browser {
         Actions keyboard = new Actions(driver);
         keyboard.sendKeys(key).perform();
     }
+    public static void switchToFrame(String frameName){
+        driver.switchTo().frame(frameName);
+    }
+
+    public static void switchToParentFrame(){
+        driver.switchTo().parentFrame();
+    }
+
+    public static void switchToDefaultContent(){
+        driver.switchTo().defaultContent();
+    }
 
 }
