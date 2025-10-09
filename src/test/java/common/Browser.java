@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.SourceType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class Browser {
@@ -263,7 +265,13 @@ public class Browser {
         keyboard.sendKeys(key).perform();
     }
     public static void switchToFrame(String frameName){
-        driver.switchTo().frame(frameName);
+        try{
+            driver.switchTo().frame(frameName);
+            System.out.println("Switch to frame: " + frameName);
+        }catch (NoSuchFrameException e){
+            System.out.println("[WARN] Frame not found: " + frameName);
+            throw e;
+        }
     }
 
     public static void switchToParentFrame(){
@@ -272,6 +280,15 @@ public class Browser {
 
     public static void switchToDefaultContent(){
         driver.switchTo().defaultContent();
+    }
+
+    public static String getFrameTextSafely(By element){
+        try {
+            return driver.findElement(element).getText();
+        }catch (NoSuchFrameException E){
+            System.out.println("Element not found in current frame");
+            return "";
+        }
     }
 
 }

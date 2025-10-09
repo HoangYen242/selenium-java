@@ -2,6 +2,7 @@ package theInternet;
 
 import common.BaseTest;
 import common.Browser;
+import org.openqa.selenium.NoSuchFrameException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -23,7 +24,7 @@ public class NestFramesTest extends BaseTest {
     }
 
     @Test
-    void testNestFrames() {
+    void shouldNavigateThroughAllNestedFrames() {
         nestFramePage.switchToFrameByName("frame-top");
         nestFramePage.switchToFrameByName("frame-left");
         Assert.assertEquals(nestFramePage.getFrameBodyText(), "LEFT");
@@ -44,5 +45,29 @@ public class NestFramesTest extends BaseTest {
 
         nestFramePage.switchToFrameByName("frame-bottom");
         Assert.assertEquals(nestFramePage.getFrameBodyText(), "BOTTOM");
+    }
+
+    @Test
+    void shouldRetrieveTextUsingDynamicFrameSwitch(){
+        Assert.assertEquals(nestFramePage.getTextFromNestedFrames("frame-top", "frame-left"), "LEFT");
+
+        Assert.assertEquals(nestFramePage.getTextFromNestedFrames("frame-top", "frame-middle"),"MIDDLE");
+
+        Assert.assertEquals(nestFramePage.getTextFromNestedFrames("frame-top", "frame-right"),"RIGHT");
+
+        Assert.assertEquals(nestFramePage.getTextFromNestedFrames("frame-bottom"),"BOTTOM");
+    }
+
+    @Test
+    void shouldThrowExceptionInvalidFrame(){
+        Assert.assertThrows(NoSuchFrameException.class, () -> {
+            nestFramePage.switchToFrameByName("nonexistent-frame");
+        });
+    }
+
+    @Test
+    void shouldCompareTextBetweenFrames(){
+        Assert.assertNotEquals(nestFramePage.getTextFromNestedFrames("frame-top", "frame-left"), "RIGHT");
+
     }
 }

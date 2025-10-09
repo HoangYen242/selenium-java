@@ -26,10 +26,28 @@ public class NestFramesPage {
     }
 
     public String getFrameBodyText(){
-        return getText(framesText);
+        return getFrameTextSafely(framesText);
     }
 
     public String getMiddleFrameText(){
-        return getText(middleFrameText);
+        return getFrameTextSafely(middleFrameText);
+    }
+
+    public String getTextFromNestedFrames(String... frames){
+        for (String frame : frames){
+            switchToFrame(frame);
+        }
+        String lastFrame = frames[frames.length - 1];
+        By locator;
+
+        if(lastFrame.equals("frame-middle")){
+            locator = middleFrameText;
+        }else {
+            locator = framesText;
+        }
+
+        String text = getFrameTextSafely(framesText);
+        switchToDefaultContent();
+        return text;
     }
 }
