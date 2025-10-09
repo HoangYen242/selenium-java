@@ -9,45 +9,46 @@ public class NestFramesPage {
     private By middleFrameText = By.id("content");
 
 
-    public void open(){
+    public void open() {
         visit("https://the-internet.herokuapp.com/nested_frames");//origin session
     }
 
-    public void switchToFrameByName(String frameName){
+    public void switchToFrameByName(String frameName) {
         switchToFrame(frameName);
     }
 
-    public void switchToTopParent(){
+    public void switchToTopParent() {
         switchToParentFrame();
     }
 
-    public void switchToOriginSession(){
+    public void switchToOriginSession() {
         switchToDefaultContent();
     }
 
-    public String getFrameBodyText(){
+    public String getFrameBodyText() {
         return getFrameTextSafely(framesText);
     }
 
-    public String getMiddleFrameText(){
+    public String getMiddleFrameText() {
         return getFrameTextSafely(middleFrameText);
     }
 
-    public String getTextFromNestedFrames(String... frames){
-        for (String frame : frames){
-            switchToFrame(frame);
-        }
-        String lastFrame = frames[frames.length - 1];
-        By locator;
-
-        if(lastFrame.equals("frame-middle")){
-            locator = middleFrameText;
-        }else {
-            locator = framesText;
+    public String getTextFromNestedFrames(String... frames) {
+        if (frames == null || frames.length == 0) {
+            throw new IllegalArgumentException("At least one frame name must be provided");
         }
 
-        String text = getFrameTextSafely(framesText);
-        switchToDefaultContent();
-        return text;
+        try {
+            for (String frame : frames) {
+                switchToFrame(frame);
+            }
+            String lastFrame = frames[frames.length - 1];
+            By locator = lastFrame.equals("frame-middle") ? middleFrameText : framesText;
+
+            String text = getFrameTextSafely(locator);
+            return text;
+        } finally {
+            switchToDefaultContent();
+        }
     }
 }

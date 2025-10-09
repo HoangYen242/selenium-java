@@ -28,9 +28,9 @@ public class Browser {
 
     public static void launch(String browserName) {
         if (browserName.equalsIgnoreCase("chrome")) {
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--headless=new");
-            driver = new ChromeDriver(chromeOptions);
+//            ChromeOptions chromeOptions = new ChromeOptions();
+//            chromeOptions.addArguments("--headless=new");
+            driver = new ChromeDriver();
         } else if (browserName.equalsIgnoreCase("edge")) {
             driver = new EdgeDriver();
         } else {
@@ -265,12 +265,14 @@ public class Browser {
         keyboard.sendKeys(key).perform();
     }
     public static void switchToFrame(String frameName){
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
         try{
-            driver.switchTo().frame(frameName);
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
+//            driver.switchTo().frame(frameName);
             System.out.println("Switch to frame: " + frameName);
-        }catch (NoSuchFrameException e){
+        }catch (TimeoutException e){
             System.out.println("[WARN] Frame not found: " + frameName);
-            throw e;
+            throw new NoSuchFrameException("Frame not found.");
         }
     }
 
@@ -285,8 +287,8 @@ public class Browser {
     public static String getFrameTextSafely(By element){
         try {
             return driver.findElement(element).getText();
-        }catch (NoSuchFrameException E){
-            System.out.println("Element not found in current frame");
+        }catch (NoSuchElementException e){
+            System.out.println("[WARN] Element not found in current frame");
             return "";
         }
     }
