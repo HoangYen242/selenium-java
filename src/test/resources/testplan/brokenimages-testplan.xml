@@ -1,0 +1,7 @@
+<suite name="The Internet Heroku App">
+    <test name="Broken Images Test on Chrome">
+        <classes>
+            <class name="theInternet.BrokenImagesTest"/>
+        </classes>
+    </test>
+</suite>

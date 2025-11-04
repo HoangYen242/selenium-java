@@ -19,7 +19,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Run test
-        run: mvn clean test -Dtest.suite=src/test/resources/testplan/nestframes-testplan.xml
+        run: mvn clean test -Dtest.suite=src/test/resources/testplan/brokenimages-testplan.xml
       - name: Publish Test Report
         if: success() || failure()
         uses: scacap/action-surefire-report@v1
