@@ -28,9 +28,9 @@ public class Browser {
 
     public static void launch(String browserName) {
         if (browserName.equalsIgnoreCase("chrome")) {
-//            ChromeOptions chromeOptions = new ChromeOptions();
-//            chromeOptions.addArguments("--headless=new");
-            driver = new ChromeDriver();
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--headless=new");
+            driver = new ChromeDriver(chromeOptions);
         } else if (browserName.equalsIgnoreCase("edge")) {
             driver = new EdgeDriver();
         } else {
