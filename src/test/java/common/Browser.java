@@ -99,31 +99,31 @@ public class Browser {
         driver.findElement(element).sendKeys(withText);
     }
 
-    public static void sendKeysToAlert(CharSequence text){
-            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
-            try {
-                Alert alert = shortWait.until(ExpectedConditions.alertIsPresent());
-                alert.sendKeys((String) text);
-                System.out.println("Sent text to alert: " + text);
-            }catch (TimeoutException e){
-                System.out.println("No alert present.");
-            }
+    public static void sendKeysToAlert(CharSequence text) {
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        try {
+            Alert alert = shortWait.until(ExpectedConditions.alertIsPresent());
+            alert.sendKeys((String) text);
+            System.out.println("Sent text to alert: " + text);
+        } catch (TimeoutException e) {
+            System.out.println("No alert present.");
+        }
     }
 
-    public static void pressKeyOnAlert(CharSequence key){
+    public static void pressKeyOnAlert(CharSequence key) {
         WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
 
         try {
             Alert alert = shortWait.until(ExpectedConditions.alertIsPresent());
 
-            if (Keys.ENTER.equals(key)){
+            if (Keys.ENTER.equals(key)) {
                 alert.accept();
                 System.out.println("Alert was present and accepted.");
-            }else if (Keys.ESCAPE.equals(key)){
+            } else if (Keys.ESCAPE.equals(key)) {
                 alert.dismiss();
                 System.out.println("Alert was present and canceled.");
             }
-        }catch (TimeoutException e){
+        } catch (TimeoutException e) {
             System.out.println("No alert present.");
         }
     }
@@ -264,33 +264,38 @@ public class Browser {
         Actions keyboard = new Actions(driver);
         keyboard.sendKeys(key).perform();
     }
-    public static void switchToFrame(String frameName){
+
+    public static void switchToFrame(String frameName) {
         WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        try{
+        try {
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
 //            driver.switchTo().frame(frameName);
             System.out.println("Switch to frame: " + frameName);
-        }catch (TimeoutException e){
+        } catch (TimeoutException e) {
             System.out.println("[WARN] Frame not found: " + frameName);
             throw new NoSuchFrameException("Frame not found.");
         }
     }
 
-    public static void switchToParentFrame(){
+    public static void switchToParentFrame() {
         driver.switchTo().parentFrame();
     }
 
-    public static void switchToDefaultContent(){
+    public static void switchToDefaultContent() {
         driver.switchTo().defaultContent();
     }
 
-    public static String getFrameTextSafely(By element){
+    public static String getFrameTextSafely(By element) {
         try {
             return driver.findElement(element).getText();
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             System.out.println("[WARN] Element not found in current frame");
             return "";
         }
+    }
+
+    public static Object runJS(String script, Object... args) {
+        return ((JavascriptExecutor) driver).executeScript(script, args);
     }
 
 }

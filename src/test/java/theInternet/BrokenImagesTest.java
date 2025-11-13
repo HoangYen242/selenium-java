@@ -1,36 +1,37 @@
 package theInternet;
 
+import common.BaseTest;
+import common.Browser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.BrokenImagesPage;
 
-import java.time.Duration;
 import java.util.List;
 
-public class BrokenImagesTest {
+public class BrokenImagesTest extends BaseTest {
+    BrokenImagesPage brokenImagesPage;
+
+    @BeforeClass
+    void openBrowser(){
+        Browser.launch("chrome");
+        brokenImagesPage = new BrokenImagesPage();
+        brokenImagesPage.open();
+    }
+
+    @BeforeMethod
+    void setUp(){
+        brokenImagesPage.open();
+    }
+
     @Test
     void shouldVerifyBrokenImages() {
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/broken_images");
+        int imgBrokenCount = brokenImagesPage.getBrokenImagesCount();
 
-        List<WebElement> images = driver.findElements(By.tagName("img"));
-        int imgBrokenCount = 0;
-
-        for (WebElement img : images) {
-            Long width = (Long) ((JavascriptExecutor) driver)
-                    .executeScript("return arguments[0].naturalWidth;", img);
-            if(width==0){
-                imgBrokenCount++;
-                System.out.println("Broken: " + img.getAttribute("src"));
-            }else {
-                System.out.println("OK: " + img.getAttribute("src"));
-            }
-        }
         System.out.println("Total number of broken images: " + imgBrokenCount);
 
 //        Assert.assertTrue(imgBrokenCount > 0, "No broken images were detected.");
