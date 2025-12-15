@@ -23,7 +23,7 @@ public class Browser {
 
     private static WebDriver driver;
     private static WebDriverWait wait;
-    private static int TIME_OUT_IN_SECONDS = 10;
+    private static int TIME_OUT_IN_SECONDS = 15;
     private static int HOVER_PAUSE_SECONDS = 2;
 
     public static void launch(String browserName) {
@@ -41,6 +41,10 @@ public class Browser {
 
     public static WebDriver getDriver() {
         return driver;
+    }
+
+    public static WebDriverWait getWait() {
+        return wait;
     }
 
     public static void captureScreenShot(String fileName) {

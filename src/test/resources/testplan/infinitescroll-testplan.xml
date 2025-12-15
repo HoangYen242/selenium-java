@@ -1,0 +1,7 @@
+<suite name="The Internet Heroku App">
+    <test name="Infinite Test on Chrome">
+        <classes>
+            <class name="theInternet.InfiniteScrollTest"/>
+        </classes>
+    </test>
+</suite>
